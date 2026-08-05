@@ -11,6 +11,7 @@ import (
 	"time"
 	"unsafe"
 
+	garage "git.deuxfleurs.fr/garage-sdk/garage-admin-sdk-golang"
 	garageapi "git.deuxfleurs.fr/garage-sdk/garage-admin-sdk-golang"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"

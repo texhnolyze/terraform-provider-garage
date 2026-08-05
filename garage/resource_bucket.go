@@ -325,11 +325,12 @@ func resourceBucketUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 
 		// add new first
 		if newAlias != "" {
+			aliasEnum := garage.BucketAliasEnumOneOfAsBucketAliasEnum(
+				garage.NewBucketAliasEnumOneOf(d.Id(), newAlias),
+			)
 			_, httpResp, err := p.client.BucketAliasAPI.
 				AddBucketAlias(p.withToken(ctx)).
-				AddBucketAliasRequest(*garage.NewAddBucketAliasRequest(
-					newAlias, "", "", d.Id(),
-				)).
+				BucketAliasEnum(aliasEnum).
 				Execute()
 			if err != nil {
 				return createDiagnostics(err, httpResp)
@@ -338,11 +339,12 @@ func resourceBucketUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 
 		// then remove old (if different)
 		if oldAlias != "" && oldAlias != newAlias {
+			aliasEnum := garage.BucketAliasEnumOneOfAsBucketAliasEnum(
+				garage.NewBucketAliasEnumOneOf(d.Id(), oldAlias),
+			)
 			_, httpResp, err := p.client.BucketAliasAPI.
 				RemoveBucketAlias(p.withToken(ctx)).
-				RemoveBucketAliasRequest(*garage.NewRemoveBucketAliasRequest(
-					oldAlias, "", "", d.Id(),
-				)).
+				BucketAliasEnum(aliasEnum).
 				Execute()
 			if err != nil {
 				return createDiagnostics(err, httpResp)
